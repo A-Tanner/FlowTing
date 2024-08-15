@@ -552,10 +552,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 20
-  _jumpForce: 20
+  _jumpForce: 25
   _gravity: -0.25
   _holdAcceleration: 0.2
-  _maxHoldTime: 0.5
+  _maxHoldTime: 0.22
   _characterController: {fileID: 1551988318}
 --- !u!1 &1655881676
 GameObject:

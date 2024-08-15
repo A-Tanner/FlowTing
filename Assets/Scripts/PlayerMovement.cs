@@ -7,15 +7,15 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
-    private float _speed = 5;
+    private float _speed = 20;
     [SerializeField]
-    private float _jumpForce = 1000;
+    private float _jumpForce = 25;
     [SerializeField]
-    private float _gravity = -2;
+    private float _gravity = -0.25f;
     [SerializeField]
-    private float _holdAcceleration = 20;
+    private float _holdAcceleration = 0.2f;
     [SerializeField]
-    private float _maxHoldTime = 0.5f;
+    private float _maxHoldTime = 0.22f;
     private float _currentHoldTime = 0f;
     private float _yAxisMovement = 0;
 
@@ -48,7 +48,8 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             if (Input.GetAxisRaw("jump") > 0 && _currentHoldTime < _maxHoldTime)
-            { _currentHoldTime += Time.deltaTime;
+            {
+                _currentHoldTime += Time.deltaTime;
                 _yAxisMovement += _holdAcceleration;
             }
             _yAxisMovement += (_gravity);
