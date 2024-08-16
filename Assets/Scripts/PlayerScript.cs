@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+[RequireComponent(typeof(CharacterController))]
+public class PlayerScript : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 20;
@@ -19,18 +21,17 @@ public class PlayerMovement : MonoBehaviour
     private float _currentHoldTime = 0f;
     private float _yAxisMovement = 0;
 
-    [SerializeField]
     private CharacterController _characterController;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        _characterController = GetComponent<CharacterController>();
     }
-
     // Update is called once per frame
     void Update()
     {
+
         float xSpeed = Mathf.Sin(Input.GetAxis("horizontal") * Mathf.PI / 2) * Mathf.Cos(Input.GetAxis("vertical") * Mathf.PI / 4);
         float zSpeed = Mathf.Sin(Input.GetAxis("vertical") * Mathf.PI / 2) * Mathf.Cos(Input.GetAxis("horizontal") * Mathf.PI / 4);
         Vector3 movementVector = new(xSpeed, 0, zSpeed);
@@ -60,4 +61,14 @@ public class PlayerMovement : MonoBehaviour
 
         _characterController.Move(movementVector);
     }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.collider.gameObject.tag == "Death")
+        {
+            OnDeathEvent?.Invoke();
+        }
+    }
+    public delegate void OnDeath();
+    public static OnDeath OnDeathEvent;
 }
