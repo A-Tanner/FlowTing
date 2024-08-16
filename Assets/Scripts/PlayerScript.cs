@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerMovement : MonoBehaviour
+public class PlayerScript : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 20;
@@ -64,10 +64,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        Debug.Log("Hit");
         if (hit.collider.gameObject.tag == "Death")
         {
-            Debug.Log("Die");
+            OnDeathEvent?.Invoke();
         }
     }
+    public delegate void OnDeath();
+    public static OnDeath OnDeathEvent;
 }
