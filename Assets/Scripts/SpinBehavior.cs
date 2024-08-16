@@ -10,14 +10,17 @@ public class SpinBehavior : MonoBehaviour
     [SerializeField] float _radius = 1f;
     [SerializeField] GameObject _objectPrefab;
     [SerializeField] int _objectCount = 3;
+    [SerializeField] float _objectRotationOffset = 0f;
+
     List<GameObject> _ringObjects = new List<GameObject>(); 
     
     private GameObject SetObjectTransform(GameObject obj, int index){
         // x = cos(radian conversion * fraction of circle), z = sin(radian conversion * fraction of circle)
 
         Vector3 ringCenter = gameObject.transform.position + Vector3.zero;
-        obj.transform.position = new Vector3(_radius * (float)Math.Cos(2 * Math.PI * index / _objectCount), 0, _radius * (float)Math.Sin(2 * Math.PI * index / _objectCount));
+        obj.transform.position = new Vector3(_radius * (float)Math.Cos(2 * Math.PI * index / _objectCount) + ringCenter.x, ringCenter.y, _radius * (float)Math.Sin(2 * Math.PI * index / _objectCount) + ringCenter.z);
         obj.transform.LookAt(ringCenter);
+        obj.transform.Rotate(0, _objectRotationOffset, 0);
         return obj;
     }
     void Start()
@@ -32,7 +35,7 @@ public class SpinBehavior : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         gameObject.transform.eulerAngles += new Vector3(0,_rotationSpeed/(_radius*2*(float)Math.PI),0);
     }
