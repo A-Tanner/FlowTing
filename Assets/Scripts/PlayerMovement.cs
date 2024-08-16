@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
@@ -19,18 +21,17 @@ public class PlayerMovement : MonoBehaviour
     private float _currentHoldTime = 0f;
     private float _yAxisMovement = 0;
 
-    [SerializeField]
     private CharacterController _characterController;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        _characterController = GetComponent<CharacterController>();
     }
-
     // Update is called once per frame
     void Update()
     {
+
         float xSpeed = Mathf.Sin(Input.GetAxis("horizontal") * Mathf.PI / 2) * Mathf.Cos(Input.GetAxis("vertical") * Mathf.PI / 4);
         float zSpeed = Mathf.Sin(Input.GetAxis("vertical") * Mathf.PI / 2) * Mathf.Cos(Input.GetAxis("horizontal") * Mathf.PI / 4);
         Vector3 movementVector = new(xSpeed, 0, zSpeed);
@@ -59,5 +60,14 @@ public class PlayerMovement : MonoBehaviour
         movementVector *= Time.deltaTime;
 
         _characterController.Move(movementVector);
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Debug.Log("Hit");
+        if (hit.collider.gameObject.tag == "Death")
+        {
+            Debug.Log("Die");
+        }
     }
 }
