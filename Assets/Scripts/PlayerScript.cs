@@ -68,6 +68,10 @@ public class PlayerScript : MonoBehaviour
         {
             OnDeathEvent?.Invoke();
         }
+        else
+        {
+            transform.parent = hit.transform;
+        }
     }
     public delegate void OnDeath();
     public static OnDeath OnDeathEvent;
