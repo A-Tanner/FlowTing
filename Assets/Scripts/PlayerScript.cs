@@ -11,13 +11,13 @@ public class PlayerScript : MonoBehaviour
     [SerializeField]
     private float _speed = 20;
     [SerializeField]
-    private float _jumpForce = 25;
+    private float _jumpForce = 17;
     [SerializeField]
-    private float _gravity = -0.25f;
+    private float _gravity = -1f;
     [SerializeField]
-    private float _holdAcceleration = 0.2f;
+    private float _holdAcceleration = 0.6f;
     [SerializeField]
-    private float _maxHoldTime = 0.22f;
+    private float _maxHoldTime = 0.3f;
     private float _currentHoldTime = 0f;
     private float _yAxisMovement = 0;
 
