@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.GameCenter;
 
 public class SpinBehavior : MonoBehaviour
 {
-    [SerializeField] float _rotationSpeed = 1f;
+    [SerializeField] float _baseRotationSpeed = 20f;
+    [SerializeField] float _rotationTimeScale = 10f;
     [SerializeField] float _radius = 1f;
     [SerializeField] GameObject _objectPrefab;
     [SerializeField] int _objectCount = 3;
@@ -14,6 +16,9 @@ public class SpinBehavior : MonoBehaviour
 
     List<GameObject> _ringObjects = new List<GameObject>(); 
     
+    private GameManager _gameManagerReference = null;
+    private float _rotationSpeed = 0f;
+
     private GameObject SetObjectTransform(GameObject obj, int index){
         // x = cos(radian conversion * fraction of circle), z = sin(radian conversion * fraction of circle)
 
@@ -22,6 +27,10 @@ public class SpinBehavior : MonoBehaviour
         obj.transform.LookAt(ringCenter);
         obj.transform.Rotate(0, _objectRotationOffset, 0);
         return obj;
+    }
+    private float TimedRotationFormula(float timeAlive){
+        float a = _baseRotationSpeed / (_radius * 2 * (float)Math.PI);
+        return a + timeAlive * _rotationTimeScale;
     }
     void Start()
     {
@@ -33,10 +42,15 @@ public class SpinBehavior : MonoBehaviour
             //Set object position
             SetObjectTransform(currentObject, i);
         }
+        if (_gameManagerReference is null)
+        {
+            _gameManagerReference = FindAnyObjectByType<GameManager>();
+        }
     }
 
     void FixedUpdate()
     {
-        gameObject.transform.eulerAngles += new Vector3(0,_rotationSpeed/(_radius*2*(float)Math.PI),0);
+        _rotationSpeed = TimedRotationFormula(_gameManagerReference.GetTimeAlive());
+        gameObject.transform.eulerAngles += new Vector3(0,_rotationSpeed,0);
     }
 }
