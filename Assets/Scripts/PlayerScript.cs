@@ -58,7 +58,8 @@ public class PlayerScript : MonoBehaviour
 
         movementVector.y = _yAxisMovement;
         movementVector *= Time.deltaTime;
-
+         //convert to the direction of the player
+        movementVector = transform.TransformDirection(movementVector);
         _characterController.Move(movementVector);
     }
 
