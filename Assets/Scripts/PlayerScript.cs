@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerScript : MonoBehaviour
@@ -31,6 +32,10 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (transform.position.y < -18)
+        {
+            Die();
+        }
 
         float xSpeed = Mathf.Sin(Input.GetAxis("horizontal") * Mathf.PI / 2) * Mathf.Cos(Input.GetAxis("vertical") * Mathf.PI / 4);
         float zSpeed = Mathf.Sin(Input.GetAxis("vertical") * Mathf.PI / 2) * Mathf.Cos(Input.GetAxis("horizontal") * Mathf.PI / 4);
@@ -67,12 +72,17 @@ public class PlayerScript : MonoBehaviour
     {
         if (hit.collider.gameObject.tag == "Death")
         {
-            OnDeathEvent?.Invoke();
+            Die();
         }
         else
         {
             transform.parent = hit.transform;
         }
+    }
+
+    private void Die()
+    {
+        OnDeathEvent?.Invoke();
     }
     public delegate void OnDeath();
     public static OnDeath OnDeathEvent;
