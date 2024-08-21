@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject _playerPrefab;
     private float _timeAliveInSeconds = 0;
-    private bool _isPlaying = true;
+    private bool _isPlaying = false;
 
     private void Awake()
     {
@@ -45,5 +45,10 @@ public class GameManager : MonoBehaviour
     public float GetTimeAlive()
     {
         return _timeAliveInSeconds;
+    }
+
+    public void StartPlaying()
+    {
+        _isPlaying = true;
     }
 }
