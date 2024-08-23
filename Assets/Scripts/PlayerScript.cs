@@ -54,6 +54,7 @@ public class PlayerScript : MonoBehaviour
         {
             _canJump = true;
             _yAxisMovement = 0;
+            _mercyTime = 0;
             _currentHoldTime = 0;
         }
         else
@@ -82,10 +83,10 @@ public class PlayerScript : MonoBehaviour
         {
             if (Input.GetAxis("jump") > 0)
             {
+                _canJump = false;
                 AudioManager.Instance.PlaySoundEffectClip(_jumpSound, transform, 100f);
                 _yAxisMovement = 0;
                 _yAxisMovement += _jumpForce;
-                _canJump = false;
             }
 
         }

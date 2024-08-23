@@ -22,10 +22,10 @@ public class AudioManager : MonoBehaviour
         AudioSource source = Instantiate(_soundObject, soundLocation.position, Quaternion.identity);
 
         _soundObject.clip = audioClip;
-        
+        Debug.Log(audioClip.length);
         source.volume = volume;
         source.Play();
 
-        Destroy(audioClip, source.clip.length);
+        Destroy(source, source.clip.length);
     }
 }
