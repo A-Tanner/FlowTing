@@ -66,8 +66,8 @@ public class RingBehavior : MonoBehaviour
     private GameObject _spikeRing = null;
     private GameObject _platformRing = null;
     
-    private SpinBehavior SetSpinProperties(SpinBehavior ringLike, float radiusOffset = 0f){
-        ringLike.transform.position = gameObject.transform.position;
+    private SpinBehavior ApplySpinProperties(SpinBehavior ringLike, float radiusOffset = 0f){
+        _spikeRing.transform.position = gameObject.transform.position + new Vector3(0, _spikeRingYOffset, 0);
         ringLike.Radius = _radius + radiusOffset;
         ringLike.RotationTimeScale = _rotationTimeScale;
 
@@ -80,14 +80,14 @@ public class RingBehavior : MonoBehaviour
         _spikeRing.transform.parent = gameObject.transform;
         _platformRing.transform.parent = gameObject.transform;
         
-        _spikeRing.transform.position = gameObject.transform.position + new Vector3(0, _spikeRingYOffset, 0);
+        
 
 
         //begin setting properties
         SpinBehavior _spikeRingBehaviour = _spikeRing.GetComponent<SpinBehavior>();
         SpinBehavior _platformRingBehaviour = _platformRing.GetComponent<SpinBehavior>();
-        SetSpinProperties(_spikeRingBehaviour, _spikeRingRadiusOffset);
-        SetSpinProperties(_platformRingBehaviour);
+        ApplySpinProperties(_spikeRingBehaviour, _spikeRingRadiusOffset);
+        ApplySpinProperties(_platformRingBehaviour);
         _spikeRingBehaviour.BaseRotationSpeed = _spikeRotationSpeed;
         _platformRingBehaviour.BaseRotationSpeed = _platformRotationSpeed;
         _spikeRingBehaviour.ObjectCount = _spikeCount;
@@ -97,5 +97,13 @@ public class RingBehavior : MonoBehaviour
         _spikeRingBehaviour.Init();
         _platformRingBehaviour.Init();
 
+    }
+    void FixedUpdate()
+    {
+        // //update rings every frame in case we want cool dynamic updating
+        // SpinBehavior _spikeRingBehaviour = _spikeRing.GetComponent<SpinBehavior>();
+        // SpinBehavior _platformRingBehaviour = _platformRing.GetComponent<SpinBehavior>();
+        // ApplySpinProperties(_spikeRingBehaviour, _spikeRingRadiusOffset);
+        // ApplySpinProperties(_platformRingBehaviour);
     }
 }
