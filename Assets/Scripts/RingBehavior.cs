@@ -73,7 +73,7 @@ public class RingBehavior : MonoBehaviour
 
         return ringLike;
     }
-    void Start()
+    public void Init()
     {
         _spikeRing = Instantiate(_spikeRingPrefab, gameObject.transform);
         _platformRing = Instantiate(_platformRingPrefab, gameObject.transform);

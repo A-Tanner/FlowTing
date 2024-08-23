@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RingManager : MonoBehaviour
@@ -45,6 +46,7 @@ public class RingManager : MonoBehaviour
         {
             GameObject currentRing = Instantiate(_ringPrefab, gameObject.transform);
             ApplyRingProperties(currentRing, i);
+            currentRing.GetComponent<RingBehavior>().Init();
         }
         if (_gameManagerReference is null)
         {

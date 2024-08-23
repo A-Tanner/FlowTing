@@ -13,6 +13,7 @@ public class SpinBehavior : MonoBehaviour
     [SerializeField] private GameObject _objectPrefab;
     [SerializeField] private int _objectCount = 3;
     [SerializeField] private float _objectRotationOffset = 0f;
+    [SerializeField] private bool _hasManager = true;
 
     private List<GameObject> _ringObjects = new List<GameObject>(); 
     
@@ -88,6 +89,15 @@ public class SpinBehavior : MonoBehaviour
             _gameManagerReference = FindAnyObjectByType<GameManager>();
         }
         _initialized = true;
+    }
+
+    void Start()
+    {
+        if(!_hasManager)
+        {
+            Init();
+        }
+
     }
 
     void FixedUpdate()
