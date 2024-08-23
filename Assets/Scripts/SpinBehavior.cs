@@ -7,19 +7,56 @@ using UnityEngine.SocialPlatforms.GameCenter;
 
 public class SpinBehavior : MonoBehaviour
 {
-    [SerializeField] float _baseRotationSpeed = 20f;
-    [SerializeField] float _rotationTimeScale = 10f;
-    [SerializeField] float _radius = 1f;
-    [SerializeField] GameObject _objectPrefab;
-    [SerializeField] int _objectCount = 3;
-    [SerializeField] float _objectRotationOffset = 0f;
+    [SerializeField] private float _baseRotationSpeed = 20f;
+    [SerializeField] private float _rotationTimeScale = 10f;
+    [SerializeField] private float _radius = 1f;
+    [SerializeField] private GameObject _objectPrefab;
+    [SerializeField] private int _objectCount = 3;
+    [SerializeField] private float _objectRotationOffset = 0f;
 
-    List<GameObject> _ringObjects = new List<GameObject>(); 
+    private List<GameObject> _ringObjects = new List<GameObject>(); 
     
     private GameManager _gameManagerReference = null;
     private float _rotationSpeed = 0f;
 
-    private GameObject SetObjectTransform(GameObject obj, int index){
+    public float BaseRotationSpeed
+    {
+        get { return _baseRotationSpeed; }
+        set { _baseRotationSpeed = value; }
+    }
+
+    public float RotationTimeScale
+    {
+        get { return _rotationTimeScale; }
+        set { _rotationTimeScale = value; }
+    }
+
+    public float Radius
+    {
+        get { return _radius; }
+        set { _radius = value; }
+    }
+
+    public GameObject ObjectPrefab
+    {
+        get { return _objectPrefab; }
+        set { _objectPrefab = value; }
+    }
+
+    public int ObjectCount
+    {
+        get { return _objectCount; }
+        set { _objectCount = value; }
+    }
+
+    public float ObjectRotationOffset
+    {
+        get { return _objectRotationOffset; }
+        set { _objectRotationOffset = value; }
+    }
+
+    private GameObject SetObjectTransform(GameObject obj, int index)
+    {
         // x = cos(radian conversion * fraction of circle), z = sin(radian conversion * fraction of circle)
 
         Vector3 ringCenter = gameObject.transform.position + Vector3.zero;
@@ -28,11 +65,14 @@ public class SpinBehavior : MonoBehaviour
         obj.transform.Rotate(0, _objectRotationOffset, 0);
         return obj;
     }
-    private float TimedRotationFormula(float timeAlive){
+
+    private float TimedRotationFormula(float timeAlive)
+    {
         float a = _baseRotationSpeed / (_radius * 2 * (float)Math.PI);
         return a + timeAlive * _rotationTimeScale;
     }
-    void Start()
+
+    public void Init()
     {
         for(int i = 0; i < _objectCount; i++)
         {
