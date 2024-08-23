@@ -18,6 +18,7 @@ public class SpinBehavior : MonoBehaviour
     
     private GameManager _gameManagerReference = null;
     private float _rotationSpeed = 0f;
+    private bool _initialized = false;
 
     public float BaseRotationSpeed
     {
@@ -86,15 +87,21 @@ public class SpinBehavior : MonoBehaviour
         {
             _gameManagerReference = FindAnyObjectByType<GameManager>();
         }
+        _initialized = true;
+        Debug.Log("Ring initialized");
     }
 
     void FixedUpdate()
     {
-        _rotationSpeed = TimedRotationFormula(_gameManagerReference.GetTimeAlive());
-        gameObject.transform.eulerAngles += new Vector3(0,_rotationSpeed,0);
-        // for(int i = 0; i < _objectCount; i++)
-        // {
-        //     SetObjectTransform(_ringObjects[i], i);
-        // }
+        if (_initialized)
+        {
+            Debug.Log("Ring should be spinning");
+            _rotationSpeed = TimedRotationFormula(_gameManagerReference.GetTimeAlive());
+            gameObject.transform.eulerAngles += new Vector3(0,_rotationSpeed,0);
+            // for(int i = 0; i < _ringObjects.Count; i++)
+            // {
+            //     SetObjectTransform(_ringObjects[i], i);
+            // }
+        }
     }
 }
