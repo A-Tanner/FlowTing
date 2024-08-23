@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class RingManager : MonoBehaviour
 {
-    [SerializeField] float _baseRotationSpeed = 20f;
+    [SerializeField] float _baseSpikeRotationSpeed = -20f; // how fast it is without the time bonus
+    [SerializeField] float _basePlatformRotationSpeed = 20f; 
     [SerializeField] float _rotationTimeScale = 0.01f;
     [SerializeField] float _radiusGap = 1f;
-    [SerializeField] int _ringCount;
+    [SerializeField] int _ringCount = 3;
     [SerializeField] GameObject _ringPrefab = null; //TODO replace this with a direct reference to the scriptable object
     private List<GameObject> _rings = new List<GameObject>(); 
     private GameManager _gameManagerReference = null;
@@ -19,14 +20,20 @@ public class RingManager : MonoBehaviour
     private int SpikeCountFunction(int index){
         return 3+index;
     }
-    private GameObject SetRingProperties(GameObject ring, int index){
+    private float RadiusFunction(int index){
+        return 10f+index*_radiusGap;
+    }
+    private GameObject ApplyRingProperties(GameObject ring, int index){
+        RingBehavior ringScript = ring.GetComponent<RingBehavior>();
+
         ring.transform.position = gameObject.transform.position;
-        ring.GetComponent<RingBehavior>().Radius = _radiusGap * index;
-        ring.GetComponent<RingBehavior>().RotationTimeScale = _rotationTimeScale;
-        ring.GetComponent<RingBehavior>().SpikeCount = SpikeCountFunction(index);
-        ring.GetComponent<RingBehavior>().PlatformCount = PlatformCountFunction(index);
-        ring.GetComponent<RingBehavior>().SpikeRotationSpeed = -20f;
-        ring.GetComponent<RingBehavior>().PlatformRotationSpeed = 20f;
+
+        ringScript.Radius = RadiusFunction(index);
+        ringScript.RotationTimeScale = _rotationTimeScale;
+        ringScript.SpikeCount = SpikeCountFunction(index);
+        ringScript.PlatformCount = PlatformCountFunction(index);
+        ringScript.SpikeRotationSpeed = _baseSpikeRotationSpeed;
+        ringScript.PlatformRotationSpeed = _basePlatformRotationSpeed;
         
         return ring;
     }
@@ -36,16 +43,14 @@ public class RingManager : MonoBehaviour
         for(int i = 0; i < _ringCount; i++)
         {
             GameObject currentRing = Instantiate(_ringPrefab, gameObject.transform);
-            SetRingProperties(currentRing, i);
+            ApplyRingProperties(currentRing, i);
         }
         if (_gameManagerReference is null)
         {
             _gameManagerReference = FindAnyObjectByType<GameManager>();
         }
     }
-
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         
     }
