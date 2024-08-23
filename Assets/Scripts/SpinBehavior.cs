@@ -88,14 +88,12 @@ public class SpinBehavior : MonoBehaviour
             _gameManagerReference = FindAnyObjectByType<GameManager>();
         }
         _initialized = true;
-        Debug.Log("Ring initialized");
     }
 
     void FixedUpdate()
     {
         if (_initialized)
         {
-            Debug.Log("Ring should be spinning");
             _rotationSpeed = TimedRotationFormula(_gameManagerReference.GetTimeAlive());
             gameObject.transform.eulerAngles += new Vector3(0,_rotationSpeed,0);
             // for(int i = 0; i < _ringObjects.Count; i++)
