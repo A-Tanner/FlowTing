@@ -88,7 +88,6 @@ public class SpinBehavior : MonoBehaviour
             _gameManagerReference = FindAnyObjectByType<GameManager>();
         }
         _initialized = true;
-        Debug.Log("Ring initialized");
     }
 
     void FixedUpdate()

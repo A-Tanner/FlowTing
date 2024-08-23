@@ -9,6 +9,7 @@ public class RingManager : MonoBehaviour
     [SerializeField] float _basePlatformRotationSpeed = 20f; 
     [SerializeField] float _rotationTimeScale = 0.01f;
     [SerializeField] float _radiusGap = 1f;
+    [SerializeField] float _innermostRadius = 10f;
     [SerializeField] int _ringCount = 3;
     [SerializeField] GameObject _ringPrefab = null; //TODO replace this with a direct reference to the scriptable object
     private List<GameObject> _rings = new List<GameObject>(); 
@@ -21,7 +22,7 @@ public class RingManager : MonoBehaviour
         return 3+index;
     }
     private float RadiusFunction(int index){
-        return 10f+index*_radiusGap;
+        return _innermostRadius+index*_radiusGap;
     }
     private GameObject ApplyRingProperties(GameObject ring, int index){
         RingBehavior ringScript = ring.GetComponent<RingBehavior>();
