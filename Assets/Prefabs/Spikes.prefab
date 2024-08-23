@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2524807379725260425}
+  - component: {fileID: 4781032751452378484}
   m_Layer: 0
   m_Name: Spikes
-  m_TagString: Untagged
+  m_TagString: Death
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35,6 +36,27 @@ Transform:
   - {fileID: 8159156146092997854}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4781032751452378484
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016126055116268528}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 7.566564, y: 1.5749155, z: 1.7712407}
+  m_Center: {x: 3.018453, y: 0.8556759, z: -0.013418913}
 --- !u!1001 &131036269034478093
 PrefabInstance:
   m_ObjectHideFlags: 0
