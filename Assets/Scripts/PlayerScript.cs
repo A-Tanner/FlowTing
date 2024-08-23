@@ -25,6 +25,11 @@ public class PlayerScript : MonoBehaviour
     private float _mercyTime = 0f;
     private bool _canJump = false;
 
+    [SerializeField]
+    private AudioClip _deathSound;
+    [SerializeField]
+    private AudioClip _jumpSound;
+
     private CharacterController _characterController;
 
     // Start is called before the first frame update
@@ -44,17 +49,6 @@ public class PlayerScript : MonoBehaviour
         float zSpeed = Mathf.Sin(Input.GetAxis("vertical") * Mathf.PI / 2) * Mathf.Cos(Input.GetAxis("horizontal") * Mathf.PI / 4);
         Vector3 movementVector = new(xSpeed, 0, zSpeed);
         movementVector *= _speed;
-
-        if (_canJump)
-        {
-            if (Input.GetAxis("jump") > 0)
-            {
-                _yAxisMovement = 0;
-                _yAxisMovement += _jumpForce;
-                _canJump = false;
-            }
-
-        }
 
         if (_characterController.isGrounded)
         {
@@ -84,6 +78,18 @@ public class PlayerScript : MonoBehaviour
             _yAxisMovement += (_gravity);
         }
 
+        if (_canJump)
+        {
+            if (Input.GetAxis("jump") > 0)
+            {
+                AudioManager.Instance.PlaySoundEffectClip(_jumpSound, transform, 100f);
+                _yAxisMovement = 0;
+                _yAxisMovement += _jumpForce;
+                _canJump = false;
+            }
+
+        }
+
         movementVector.y = _yAxisMovement;
         movementVector *= Time.deltaTime;
         //convert to the direction of the player
@@ -95,12 +101,13 @@ public class PlayerScript : MonoBehaviour
     {
         if (hit.collider.tag == "Death")
         {
+            AudioManager.Instance.PlaySoundEffectClip(_deathSound, transform, 100f);
             Die();
         }
         else
         if (hit.collider.tag != "Start")
         {
-            transform.parent = hit.transform.parent.parent;
+            transform.parent = hit.transform.parent;//.parent;
         }
     }
 
