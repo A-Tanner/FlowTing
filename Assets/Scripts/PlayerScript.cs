@@ -21,6 +21,9 @@ public class PlayerScript : MonoBehaviour
     private float _maxHoldTime = 0.3f;
     private float _currentHoldTime = 0f;
     private float _yAxisMovement = 0;
+    private float _mercyCooldown = 0.15f;
+    private float _mercyTime = 0f;
+    private bool _canJump = false;
 
     private CharacterController _characterController;
 
@@ -42,41 +45,70 @@ public class PlayerScript : MonoBehaviour
         Vector3 movementVector = new(xSpeed, 0, zSpeed);
         movementVector *= _speed;
 
-        if (_characterController.isGrounded)
+        if (_canJump)
         {
-            _yAxisMovement = 0;
-            _currentHoldTime = 0;
             if (Input.GetAxis("jump") > 0)
             {
+                _yAxisMovement = 0;
                 _yAxisMovement += _jumpForce;
+                _canJump = false;
             }
+
+        }
+
+        if (_characterController.isGrounded)
+        {
+            _canJump = true;
+            _yAxisMovement = 0;
+            _currentHoldTime = 0;
         }
         else
         {
-            if (Input.GetAxisRaw("jump") > 0 && _currentHoldTime < _maxHoldTime)
+            if (_mercyTime >= _mercyCooldown)
+            {
+                transform.parent = null;
+                _canJump = false;
+                _mercyTime = 0;
+            }
+            else
+            {
+                _mercyTime += Time.deltaTime;
+            }
+
+            if (Input.GetAxisRaw("jump") > 0 && _currentHoldTime < _maxHoldTime && _yAxisMovement > 0)
             {
                 _currentHoldTime += Time.deltaTime;
-                _yAxisMovement += _holdAcceleration;
+                _yAxisMovement += _holdAcceleration * Time.deltaTime;
             }
+
             _yAxisMovement += (_gravity);
         }
 
         movementVector.y = _yAxisMovement;
         movementVector *= Time.deltaTime;
-         //convert to the direction of the player
+        //convert to the direction of the player
         movementVector = transform.TransformDirection(movementVector);
         _characterController.Move(movementVector);
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.collider.gameObject.tag == "Death")
+        if (hit.collider.tag == "Death")
         {
             Die();
         }
         else
+        if (hit.collider.tag != "Start")
         {
-            transform.parent = hit.transform;
+            transform.parent = hit.transform.parent.parent;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Death")
+        {
+            Die();
         }
     }
 
