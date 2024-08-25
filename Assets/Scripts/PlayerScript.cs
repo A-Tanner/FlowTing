@@ -76,7 +76,7 @@ public class PlayerScript : MonoBehaviour
                 _yAxisMovement += _holdAcceleration * Time.deltaTime;
             }
 
-            _yAxisMovement += (_gravity);
+            _yAxisMovement += (_gravity) * Time.deltaTime * 60;
         }
 
         if (_canJump)
